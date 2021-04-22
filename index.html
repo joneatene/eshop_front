@@ -31,20 +31,18 @@
     </table>
   </body>
   <script>
-    let email = "";
-    let pass = "";
     showItems();
-
+    
     document.forms.login.addEventListener("submit", (e) => {
       e.preventDefault();
 
       email = e.target.elements.email.value.trim();
       pass = e.target.elements.pass.value.trim();
 
-      showItems();
+      showItems(email, pass);
     });
 
-    function showItems() {
+    function showItems(email, pass) {
       fetch("http://localhost:8080/showItems", {
         method: "POST",
         headers: {
