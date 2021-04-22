@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eshop</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a href="register.html">Register</a>
+
+    <h3>Login</h3>
+    <form name="login">
+      <input type="email" name="email" placeholder="email@email.com" />
+      <input type="password" name="pass" placeholder="password" />
+      <button type="submit">Login</button>
+    </form>
+
+    <h1>Items</h1>
+    <table>
+      <thead>
+        <th>Item</th>
+        <th>Price</th>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </body>
+  <script>
+    let email = "";
+    let pass = "";
+    showItems();
+
+    document.forms.login.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      email = e.target.elements.email.value.trim();
+      pass = e.target.elements.pass.value.trim();
+
+      showItems();
+    });
+
+    function showItems() {
+      fetch("http://localhost:8080/showItems", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, pass }),
+      })
+        .then((res) => res.json())
+        .then((data) => displayTable(data));
+
+      function displayTable(data) {
+        const tbody = document.querySelector("tbody");
+        tbody.innerHTML = "";
+        data.forEach((item) => {
+          const tr = tbody.insertRow();
+          const td1 = tr.insertCell();
+          const td2 = tr.insertCell();
+          td1.textContent = item.title;
+          td2.textContent = item.price;
+        });
+      }
+    }
+  </script>
+</html>

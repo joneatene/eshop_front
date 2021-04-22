@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eshop</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a href="index.html">View Items</a>
+
+    <h3>Register</h3>
+    <form name="register">
+      <input type="email" name="email" placeholder="email@email.com" />
+      <input type="password" name="pass" placeholder="password" />
+      <button type="submit">Login</button>
+    </form>
+  </body>
+  <script>
+    document.forms.register.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = e.target.elements.email.value.trim();
+      const pass = e.target.elements.pass.value.trim();
+
+      fetch("http://localhost:8080/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, pass }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "OK") {
+            alert("registered!");
+          }
+        });
+    });
+  </script>
+</html>
